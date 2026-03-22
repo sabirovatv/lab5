@@ -22,12 +22,12 @@ jobs:
         ctest --output-on-failure
     - name: Generate coverage report
       run: |
-        cd build
-        lcov --capture --directory . --output-file coverage.info --ignore-errors mismatch
-        lcov --remove coverage.info '/usr/*' '*googletest*' '*gtest*' '_deps/*' --output-file coverage.cleaned.info
+        lcov --capture --directory build --output-file coverage.info --ignore-errors mismatch,mismatch
+        lcov --remove coverage.info '/usr/*' '*/googletest*' '*/_deps/*' --ignore-errors unused --output-file coverage.cleaned.info
         lcov --list coverage.cleaned.info
     - name: Upload coverage to Coveralls
       uses: coverallsapp/github-action@v2
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
-        path-to-lcov: build/coverage.cleaned.info
+        path-to-lcov: coverage.cleaned.info
+ 
