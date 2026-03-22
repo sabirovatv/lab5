@@ -34,10 +34,20 @@ jobs:
       - name: Generate lcov report
         run: |
           lcov --capture --directory build --output-file coverage.info --no-external --ignore-errors mismatch
-          lcov --list coverage.info
+          lcov --remove coverage.info \
+            '*/googletest/*' \
+            '*/gtest/*' \
+            '*/CMakeFiles/*' \
+            '*test_*.cpp' \
+            --ignore-errors unused \
+            --output-file coverage.cleaned.info
+          lcov --extract coverage.cleaned.info \
+            '*/banking/*' \
+            --output-file coverage.final.info
+          lcov --list coverage.final.info
 
       - name: Upload to Coveralls
         uses: coverallsapp/github-action@v2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          path-to-lcov: coverage.info
+          path-to-lcov: coverage.final.info
