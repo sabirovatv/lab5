@@ -2,11 +2,12 @@ cmake_minimum_required(VERSION 3.5)
 
 set(COVERAGE OFF CACHE BOOL "Coverage")
 set(CMAKE_CXX_COMPILER "/usr/bin/g++")
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 project(TestRunning)
 
-
-add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/googletest" "gtest")
+add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/third_party/googletest" "gtest")
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/banking")
 add_executable(RunTest
     ${CMAKE_CURRENT_SOURCE_DIR}/test.cpp
